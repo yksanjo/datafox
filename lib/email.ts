@@ -12,12 +12,14 @@ export async function sendSignalNotification(email: string, signal: any) {
     return
   }
 
-  const signalTypeEmoji = {
+  const emojiMap = {
     funding: '💰',
     hiring: '👔',
     expansion: '🌍',
     news: '📰',
-  }[signal.type] || '🔔'
+  } as const
+  
+  const signalTypeEmoji = emojiMap[signal.type as keyof typeof emojiMap] || '🔔'
 
   try {
     await resend.emails.send({
